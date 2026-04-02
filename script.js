@@ -1,6 +1,5 @@
 const API_URL = 'https://oracleapex.com/ords/progressao/v1/leituras/';
 
-
 async function carregarLeituras() {
     const container = document.getElementById('reading-list');
     console.log("Iniciando busca de dados...");
