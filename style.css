@@ -1,0 +1,218 @@
+/* Variáveis de Cores - Tema Dark */
+:root {
+    --bg-color: #121212; /* Fundo principal escuro */
+    --card-bg: #1e1e1e;   /* Fundo dos cards ligeiramente mais claro */
+    --primary: #3b82f6;   /* Azul vibrante mantido para destaque */
+    --text-main: #e2e8f0; /* Texto principal (off-white) */
+    --text-sub: #94a3b8;  /* Texto secundário (cinza azulado claro) */
+    --border-color: #2d3748; /* Cor das bordas e divisores */
+    --category-btn-bg: #2d3748; /* Fundo dos botões de categoria desativados */
+    --progress-bg: #333d4f; /* Fundo da barra de progresso */
+}
+
+/* Reset Básico */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    margin: 0;
+    padding-bottom: 90px; /* Espaço para a navegação inferior */
+    color: var(--text-main);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Header */
+.main-header {
+    padding: 20px 20px 10px 20px;
+    background: var(--bg-color);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.top-bar h1 { 
+    font-size: 1.3rem; 
+    margin: 0;
+    font-weight: 700;
+}
+
+.user-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: var(--text-sub);
+    font-size: 1.1rem;
+}
+
+.avatar {
+    width: 35px;
+    height: 35px;
+    background: #4a5568; /* Cinza para o placeholder do avatar */
+    border-radius: 50%;
+}
+
+/* Categorias */
+.categories {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 5px;
+}
+
+/* Esconder barra de rolagem das categorias */
+.categories::-webkit-scrollbar {
+    display: none;
+}
+
+.categories button {
+    border: none;
+    padding: 8px 20px;
+    border-radius: 20px;
+    background: var(--category-btn-bg);
+    color: var(--text-sub);
+    white-space: nowrap;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background 0.2s, color 0.2s;
+}
+
+.categories button.active {
+    background: var(--text-main); /* Botão ativo em branco/off-white */
+    color: #121212; /* Texto preto no botão ativo */
+}
+
+/* Conteúdo Principal */
+.content {
+    padding: 10px 15px;
+}
+
+/* Estilo do Card */
+.card {
+    background: var(--card-bg);
+    border-radius: 18px;
+    padding: 18px;
+    display: flex;
+    gap: 18px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Sombra mais densa para o dark mode */
+    border: 1px solid #2a2a2a; /* Borda sutil para definir o card */
+}
+
+.cover {
+    width: 85px;
+    height: 115px;
+    background: #2d3748; /* Placeholder da capa em cinza escuro */
+    border-radius: 10px;
+    object-fit: cover;
+    flex-shrink: 0; /* Impede a imagem de amassar */
+}
+
+.info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.info h3 { 
+    margin: 0 0 4px 0; 
+    font-size: 1.05rem; 
+    font-weight: 600;
+}
+
+.info p { 
+    margin: 0; 
+    font-size: 0.88rem; 
+    color: var(--text-sub); 
+}
+
+/* Progresso e Status */
+.progress-container {
+    margin-top: 15px;
+}
+
+.progress-bar {
+    height: 7px;
+    background: var(--progress-bg);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--primary);
+    border-radius: 4px;
+}
+
+.status-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    margin-top: 7px;
+    font-weight: 500;
+}
+
+.status-text {
+    color: var(--text-sub);
+}
+
+.status-label {
+    color: var(--primary); /* Status "Lendo" em azul */
+    font-weight: 600;
+}
+
+/* Navegação Inferior (Bottom Nav) */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #1a1a1a; /* Fundo da nav ligeiramente diferente do fundo principal */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 12px 0 28px 0; /* Padding extra para a "home bar" dos celulares modernos */
+    border-top: 1px solid var(--border-color);
+    z-index: 100;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.7rem;
+    color: var(--text-sub);
+    gap: 4px;
+    text-decoration: none; /* Caso use tags <a> */
+}
+
+.nav-item i {
+    font-size: 1.2rem;
+}
+
+.nav-item.active { 
+    color: var(--primary); 
+}
+
+/* Botão Adicionar (+) Central */
+.add-btn {
+    background: var(--text-main); /* Botão branco */
+    color: #121212 !important; /* Ícone preto */
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    justify-content: center;
+    margin-top: -35px; /* Elevação do botão */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    border: 4px solid var(--bg-color); /* Borda da cor do fundo para efeito de recorte */
+}
+
+.add-btn i {
+    font-size: 1.4rem;
+}
