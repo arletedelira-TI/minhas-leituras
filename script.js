@@ -1,4 +1,4 @@
-const API_URL = 'SUA_URL_DO_APEX_AQUI';
+const API_URL = 'https://oracleapex.com/ords/progressao/v1/leituras/';
 
 async function carregarLeituras() {
     const container = document.getElementById('reading-list');
