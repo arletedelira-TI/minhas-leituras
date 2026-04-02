@@ -14,8 +14,8 @@ async function carregarLeituras() {
         configurarFiltros();
         
     } catch (error) {
-        console.error("Erro:", error);
-        container.innerHTML = "<p style='text-align:center; padding:50px;'>Erro ao conectar com o banco de dados.</p>";
+        console.error("Erro ao carregar dados:", error);
+        container.innerHTML = "<p style='text-align:center; padding:50px;'>Erro de conexão com o banco.</p>";
     }
 }
 
@@ -29,15 +29,18 @@ function getStatusClass(status) {
 function renderizarCards(lista) {
     const container = document.getElementById('reading-list');
     
-    if (lista.length === 0) {
-        container.innerHTML = "<p style='text-align:center; padding:50px; color:gray;'>Nenhum item nesta categoria.</p>";
+    if (!lista || lista.length === 0) {
+        container.innerHTML = "<p style='text-align:center; padding:50px; color:gray;'>Nenhum item encontrado.</p>";
         return;
     }
 
     container.innerHTML = lista.map(item => {
+        // Blindagem contra campos nulos
         const livro = item.LIVRO || "Sem título";
         const categoria = item.CATEGORIA || "Geral";
         const status = item.STATUS || "Lendo";
+        const capa = item.CAPA_URL || "https://via.placeholder.com/80x110";
+        
         const atual = parseInt(item.PAGINA_ATUAL) || 0;
         const total = parseInt(item.TOTAL_PAGINAS) || 1;
         const perc = Math.round((atual / total) * 100);
@@ -45,7 +48,7 @@ function renderizarCards(lista) {
 
         return `
             <div class="card">
-                <img src="${item.CAPA_URL || 'https://via.placeholder.com/80x110'}" class="cover">
+                <img src="${capa}" class="cover" onerror="this.src='https://via.placeholder.com/80x110'">
                 <div class="info">
                     <h3>${livro}</h3>
                     <p>${categoria}</p>
@@ -72,20 +75,21 @@ function configurarFiltros() {
             botoes.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             
-            const categoriaAlvo = btn.innerText.toLowerCase();
+            const filtro = btn.innerText.toLowerCase();
             
-            if (categoriaAlvo === 'tudo') {
+            if (filtro === 'tudo') {
                 renderizarCards(todasLeituras);
             } else {
-                // Filtra se a categoria do banco contém o texto do botão
-                const filtrados = todasLeituras.filter(item => 
-                    item.CATEGORIA.toLowerCase().includes(categoriaAlvo.substring(0, 4))
-                );
+                const filtrados = todasLeituras.filter(item => {
+                    const cat = item.CATEGORIA ? item.CATEGORIA.toLowerCase() : "";
+                    // Pega os 4 primeiros caracteres (ex: 'livr', 'arti') para evitar erros de plural
+                    return cat.includes(filtro.substring(0, 4));
+                });
                 renderizarCards(filtrados);
             }
         };
     });
 }
 
-// Inicialização
+// Inicia o app
 carregarLeituras();

@@ -1,24 +1,24 @@
 :root {
     --bg-color: #121212;
     --card-bg: #1e1e1e;
-    --primary: #3b82f6;   /* Lendo */
-    --success: #10b981;   /* Concluído */
-    --warning: #f59e0b;   /* Pausado */
+    --primary: #3b82f6;   /* Azul: Lendo */
+    --success: #10b981;   /* Verde: Concluído */
+    --warning: #f59e0b;   /* Laranja: Pausado */
     --text-main: #e2e8f0;
     --text-sub: #94a3b8;
     --border-color: #2d3748;
 }
 
 body {
-    font-family: 'Segoe UI', sans-serif;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     background-color: var(--bg-color);
     margin: 0;
     padding-bottom: 90px;
     color: var(--text-main);
-    transition: all 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
 }
 
-/* Header e Categorias */
+/* Header Fixo */
 .main-header {
     padding: 20px;
     background: var(--bg-color);
@@ -38,13 +38,14 @@ body {
 
 .categories button {
     border: none;
-    padding: 8px 20px;
+    padding: 8px 22px;
     border-radius: 20px;
     background: #2d3748;
     color: var(--text-sub);
     cursor: pointer;
     transition: 0.3s;
-    font-weight: 500;
+    font-weight: 600;
+    white-space: nowrap;
 }
 
 .categories button.active {
@@ -52,7 +53,7 @@ body {
     color: #121212;
 }
 
-/* Cards com Efeito de Toque */
+/* Lista de Leituras */
 .content { padding: 0 15px; }
 
 .card {
@@ -63,7 +64,7 @@ body {
     gap: 15px;
     margin-bottom: 15px;
     border: 1px solid var(--border-color);
-    transition: transform 0.2s ease;
+    transition: transform 0.2s ease, border-color 0.3s ease;
 }
 
 .card:active { transform: scale(0.97); }
@@ -76,18 +77,23 @@ body {
     background: #2d3748;
 }
 
-/* Barras de Progresso Dinâmicas */
+.info { flex: 1; }
+
+.info h3 { margin: 0 0 5px 0; font-size: 1.1rem; }
+.info p { margin: 0; font-size: 0.85rem; color: var(--text-sub); }
+
+/* Barras de Progresso */
 .progress-bar {
     height: 6px;
     background: #333d4f;
     border-radius: 4px;
-    margin-top: 12px;
+    margin-top: 15px;
     overflow: hidden;
 }
 
-.progress-fill { height: 100%; transition: width 0.8s ease-in-out; }
+.progress-fill { height: 100%; transition: width 1s ease-in-out; }
 
-/* Classes de Cores por Status */
+/* Cores por Status */
 .lendo { background-color: var(--primary); color: var(--primary) !important; }
 .concluido { background-color: var(--success); color: var(--success) !important; }
 .pausado { background-color: var(--warning); color: var(--warning) !important; }
@@ -99,7 +105,7 @@ body {
     margin-top: 8px;
 }
 
-/* Navegação Inferior */
+/* Nav Inferior */
 .bottom-nav {
     position: fixed;
     bottom: 0;
@@ -107,18 +113,19 @@ body {
     background: #1a1a1a;
     display: flex;
     justify-content: space-around;
-    padding: 15px 0 30px;
+    padding: 12px 0 25px;
     border-top: 1px solid var(--border-color);
 }
 
-.nav-item { color: var(--text-sub); font-size: 0.7rem; text-align: center; }
+.nav-item { color: var(--text-sub); font-size: 0.7rem; text-align: center; cursor: pointer; }
 .nav-item.active { color: var(--primary); }
 .add-btn {
     background: white;
     color: black !important;
-    width: 50px; height: 50px;
+    width: 55px; height: 55px;
     border-radius: 50%;
-    margin-top: -35px;
+    margin-top: -40px;
     display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    font-size: 1.5rem;
 }
