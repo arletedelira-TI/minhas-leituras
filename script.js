@@ -75,3 +75,60 @@ function getStatusClass(status) {
 
 // Inicia a execução
 carregarLeituras();
+
+function mostrarRelatorio() {
+    // 1. Alterna as telas
+    document.getElementById('reading-list').style.display = 'none';
+    document.getElementById('report-page').style.display = 'block';
+    
+    const grid = document.getElementById('stats-grid');
+    
+    // 2. Cálculos Inteligentes
+    const totalItens = todasLeituras.length;
+    
+    // Conta concluídos (independente de maiúsculas/minúsculas)
+    const concluidos = todasLeituras.filter(i => 
+        (i.STATUS || "").toUpperCase().includes("CONCLU")
+    ).length;
+
+    // Soma total de páginas (usando os nomes das colunas do APEX)
+    const lidas = todasLeituras.reduce((acc, i) => acc + (parseInt(i.PAGINA_ATUAL) || 0), 0);
+    const totais = todasLeituras.reduce((acc, i) => acc + (parseInt(i.TOTAL_PAGINAS) || 0), 0);
+    const progressoGeral = totais > 0 ? Math.round((lidas / totais) * 100) : 0;
+
+    // 3. Renderiza os cards de métricas
+    grid.innerHTML = `
+        <div class="stat-card">
+            <h4>Acervo Técnico</h4>
+            <p>${totalItens}</p>
+        </div>
+        <div class="stat-card">
+            <h4>Concluídos</h4>
+            <p>${concluidos}</p>
+        </div>
+        <div class="stat-card stat-full">
+            <h4>Total de Páginas Lidas</h4>
+            <p>${lidas.toLocaleString()}</p>
+        </div>
+        <div class="stat-card stat-full">
+            <h4>Saúde da Biblioteca</h4>
+            <p>${progressoGeral}%</p>
+            <div class="progress-bar" style="margin-top: 15px;">
+                <div class="progress-fill lendo" style="width: ${progressoGeral}%"></div>
+            </div>
+        </div>
+    `;
+}
+
+// Vincula o botão "Relatórios" da barra inferior
+document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', function() {
+        if (this.innerText.includes('Relatórios')) {
+            mostrarRelatorio();
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            this.classList.add('active');
+        } else if (this.innerText.includes('Início')) {
+            location.reload(); // Recarrega para voltar à lista original
+        }
+    });
+});

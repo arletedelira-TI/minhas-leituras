@@ -147,3 +147,39 @@ body {
     font-size: 1.5rem;
     font-weight: bold;
 }
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Dois cards por linha */
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 18px;
+    border: 1px solid var(--border-color);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover { transform: translateY(-5px); }
+
+.stat-card h4 {
+    margin: 0;
+    font-size: 0.75rem;
+    color: var(--text-sub);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.stat-card p {
+    margin: 10px 0 0;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--primary);
+}
+
+/* Card de largura total para o progresso geral */
+.stat-full { grid-column: span 2; }
