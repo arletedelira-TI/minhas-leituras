@@ -54,7 +54,10 @@ body {
 }
 
 /* Lista de Leituras */
-.content { padding: 0 15px; }
+.content { 
+    padding: 0 15px;
+    min-height: 200px; /* Garante que o container apareça mesmo vazio */
+}
 
 .card {
     background: var(--card-bg);
@@ -65,6 +68,12 @@ body {
     margin-bottom: 15px;
     border: 1px solid var(--border-color);
     transition: transform 0.2s ease, border-color 0.3s ease;
+    animation: fadeIn 0.5s ease forwards; /* Suaviza a entrada dos dados */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .card:active { transform: scale(0.97); }
@@ -79,7 +88,7 @@ body {
 
 .info { flex: 1; }
 
-.info h3 { margin: 0 0 5px 0; font-size: 1.1rem; }
+.info h3 { margin: 0 0 5px 0; font-size: 1.1rem; color: var(--text-main); }
 .info p { margin: 0; font-size: 0.85rem; color: var(--text-sub); }
 
 /* Barras de Progresso */
@@ -91,12 +100,20 @@ body {
     overflow: hidden;
 }
 
-.progress-fill { height: 100%; transition: width 1s ease-in-out; }
+.progress-fill { 
+    height: 100%; 
+    transition: width 1s ease-in-out; 
+    border-radius: 4px;
+}
 
-/* Cores por Status */
-.lendo { background-color: var(--primary); color: var(--primary) !important; }
-.concluido { background-color: var(--success); color: var(--success) !important; }
-.pausado { background-color: var(--warning); color: var(--warning) !important; }
+/* Cores por Status (Aplicadas via JS) */
+.progress-fill.lendo { background-color: var(--primary); }
+.progress-fill.concluido { background-color: var(--success); }
+.progress-fill.pausado { background-color: var(--warning); }
+
+.status-label.lendo { color: var(--primary) !important; }
+.status-label.concluido { color: var(--success) !important; }
+.status-label.pausado { color: var(--warning) !important; }
 
 .status-row {
     display: flex;
@@ -128,4 +145,5 @@ body {
     display: flex; align-items: center; justify-content: center;
     box-shadow: 0 5px 15px rgba(0,0,0,0.5);
     font-size: 1.5rem;
+    font-weight: bold;
 }

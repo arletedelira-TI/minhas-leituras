@@ -1,4 +1,4 @@
-const API_URL = 'https://oracleapex.com/ords/progressao/v1/leituras/';
+const API_URL = 'https://oracleapex.com/ords/progressao/v1/leituras/'; 
 
 async function carregarLeituras() {
     const container = document.getElementById('reading-list');
@@ -17,37 +17,8 @@ async function carregarLeituras() {
             return;
         }
 
-        container.innerHTML = leituras.map(item => {
-            // MAPEAMENTO COMPATÍVEL (Aceita LIVRO ou livro)
-            const titulo = item.LIVRO || item.livro || "Sem título";
-            const categoria = item.CATEGORIA || item.categoria || "Geral";
-            const status = item.STATUS || item.status || "Lendo";
-            const capa = item.CAPA_URL || item.capa_url || "https://via.placeholder.com/80x110";
-            
-            const atual = parseInt(item.PAGINA_ATUAL || item.pagina_atual) || 0;
-            const total = parseInt(item.TOTAL_PAGINAS || item.total_paginas) || 1;
-            const perc = Math.round((atual / total) * 100);
-
-            return `
-                <div class="card">
-                    <img src="${capa}" class="cover" alt="Capa" onerror="this.src='https://via.placeholder.com/80x110'">
-                    <div class="info">
-                        <h3>${titulo}</h3>
-                        <p>${categoria} • ${status}</p>
-                        
-                        <div class="progress-container">
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: ${perc}%"></div>
-                            </div>
-                            <div class="status-row">
-                                <span class="status-text">${perc}% - ${atual}/${total} pgs</span>
-                                <span class="status-label">${status}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }).join('');
+        // Chamamos a função de renderização passando a lista do banco
+        renderizarCards(leituras);
 
         console.log("Interface atualizada com sucesso!");
 
@@ -57,5 +28,50 @@ async function carregarLeituras() {
     }
 }
 
-// Executa a função
+function renderizarCards(lista) {
+    const container = document.getElementById('reading-list');
+    
+    container.innerHTML = lista.map(item => {
+        // MAPEAMENTO COMPATÍVEL (Prioriza MAIÚSCULAS do APEX)
+        const livro = item.LIVRO || item.livro || "Sem título";
+        const categoria = item.CATEGORIA || item.categoria || "Geral";
+        const status = item.STATUS || item.status || "Lendo";
+        const capa = item.CAPA_URL || item.capa_url || "https://via.placeholder.com/80x110";
+        
+        const atual = parseInt(item.PAGINA_ATUAL || item.pagina_atual) || 0;
+        const total = parseInt(item.TOTAL_PAGINAS || item.total_paginas) || 1;
+        const perc = Math.round((atual / total) * 100);
+        
+        // Define a classe de cor baseada no status
+        const classeStatus = getStatusClass(status); 
+
+        return `
+            <div class="card">
+                <img src="${capa}" class="cover" alt="Capa" onerror="this.src='https://via.placeholder.com/80x110'">
+                <div class="info">
+                    <h3>${livro}</h3>
+                    <p>${categoria}</p>
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress-fill ${classeStatus}" style="width: ${perc}%"></div>
+                        </div>
+                        <div class="status-row">
+                            <span class="status-text">${perc}% - ${atual}/${total} pgs</span>
+                            <span class="status-label ${classeStatus}" style="font-weight:bold">${status}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function getStatusClass(status) {
+    const s = status ? status.toUpperCase() : '';
+    if (s.includes('CONCLUÍDO') || s.includes('FINALIZADO')) return 'concluido';
+    if (s.includes('PAUSADO') || s.includes('ESPERA')) return 'pausado';
+    return 'lendo';
+}
+
+// Inicia a execução
 carregarLeituras();
