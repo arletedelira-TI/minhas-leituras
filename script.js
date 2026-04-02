@@ -3,25 +3,31 @@ const API_URL = 'https://oracleapex.com/ords/progressao/v1/leituras/';
 
 async function carregarLeituras() {
     const container = document.getElementById('reading-list');
-    console.log("Tentando conectar com a API...");
+    console.log("Iniciando fetch para:", API_URL);
 
     try {
         const response = await fetch(API_URL);
-        const data = await response.json();
         
-        console.log("Dados brutos recebidos:", data);
+        console.log("Status da resposta:", response.status); // Deve ser 200
 
-        // O APEX coloca os dados dentro de 'items'
-        const leituras = data.items;
+        if (!response.ok) {
+            throw new Error(`Erro HTTP! status: ${response.status}`);
+        }
 
-        if (!leituras || leituras.length === 0) {
-            container.innerHTML = "<p style='color: white; text-align: center; margin-top: 50px;'>Nenhuma leitura encontrada na tabela.</p>";
+        const data = await response.json();
+        console.log("JSON recebido:", data);
+
+        // O APEX SEMPRE coloca os dados dentro de 'items'
+        const leituras = data.items || [];
+        console.log("Quantidade de itens encontrados:", leituras.length);
+
+        if (leituras.length === 0) {
+            container.innerHTML = "<p style='color: white; text-align: center; margin-top: 50px;'>A tabela está vazia ou o campo 'items' não foi encontrado.</p>";
             return;
         }
 
         container.innerHTML = leituras.map(item => {
-            // Calculando o percentual caso não venha pronto do SQL
-            // Nota: Usei nomes em MAIÚSCULO pois é o padrão do Oracle
+            // Garante que os números existam para não quebrar o cálculo
             const atual = item.PAGINA_ATUAL || 0;
             const total = item.TOTAL_PAGINAS || 1;
             const perc = Math.round((atual / total) * 100);
@@ -47,11 +53,9 @@ async function carregarLeituras() {
             `;
         }).join('');
 
-        console.log("Interface atualizada com sucesso!");
-
     } catch (error) {
-        console.error("Erro crítico na requisição:", error);
-        container.innerHTML = `<p style='color: #ff4d4d; text-align: center; margin-top: 50px;'>Erro de conexão. Verifique o console.</p>`;
+        console.error("Erro detalhado:", error);
+        container.innerHTML = `<p style='color: #ff4d4d; text-align: center; margin-top: 50px;'>Erro ao carregar biblioteca: ${error.message}</p>`;
     }
 }
 
