@@ -3,39 +3,56 @@ const API_URL = 'https://oracleapex.com/ords/progressao/v1/leituras/';
 
 async function carregarLeituras() {
     const container = document.getElementById('reading-list');
+    console.log("Tentando conectar com a API...");
 
     try {
         const response = await fetch(API_URL);
         const data = await response.json();
         
-        // O ORDS devolve os dados dentro da propriedade 'items'
+        console.log("Dados brutos recebidos:", data);
+
+        // O APEX coloca os dados dentro de 'items'
         const leituras = data.items;
 
-        container.innerHTML = leituras.map(item => `
-            <div class="card">
-                <img src="${item.capa_url || 'https://via.placeholder.com/80x110'}" class="cover" alt="Capa">
-                <div class="info">
-                    <h3>${item.livro}</h3>
-                    <p>${item.categoria} • ${item.status}</p>
-                    
-                    <div class="progress-container">
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: ${item.percentual}%"></div>
-                        </div>
-                        <div class="status-row">
-                            <span class="status-text">${item.percentual}% - ${item.pagina_atual}/${item.total_paginas} pgs</span>
-                            <span class="status-label">${item.status}</span>
+        if (!leituras || leituras.length === 0) {
+            container.innerHTML = "<p style='color: white; text-align: center; margin-top: 50px;'>Nenhuma leitura encontrada na tabela.</p>";
+            return;
+        }
+
+        container.innerHTML = leituras.map(item => {
+            // Calculando o percentual caso não venha pronto do SQL
+            // Nota: Usei nomes em MAIÚSCULO pois é o padrão do Oracle
+            const atual = item.PAGINA_ATUAL || 0;
+            const total = item.TOTAL_PAGINAS || 1;
+            const perc = Math.round((atual / total) * 100);
+
+            return `
+                <div class="card">
+                    <img src="${item.CAPA_URL || 'https://via.placeholder.com/80x110'}" class="cover" alt="Capa">
+                    <div class="info">
+                        <h3>${item.LIVRO || 'Sem título'}</h3>
+                        <p>${item.CATEGORIA || 'Geral'} • ${item.STATUS || 'Status'}</p>
+                        
+                        <div class="progress-container">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${perc}%"></div>
+                            </div>
+                            <div class="status-row">
+                                <span class="status-text">${perc}% - ${atual}/${total} pgs</span>
+                                <span class="status-label">${item.STATUS || ''}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        `).join('');
+            `;
+        }).join('');
+
+        console.log("Interface atualizada com sucesso!");
 
     } catch (error) {
-        console.error("Erro ao carregar dados do APEX:", error);
-        container.innerHTML = "<p style='color: white; padding: 20px;'>Erro ao carregar biblioteca.</p>";
+        console.error("Erro crítico na requisição:", error);
+        container.innerHTML = `<p style='color: #ff4d4d; text-align: center; margin-top: 50px;'>Erro de conexão. Verifique o console.</p>`;
     }
 }
 
-// Inicia a carga ao abrir a página
 carregarLeituras();
