@@ -4,6 +4,7 @@
     --primary: #3b82f6;   /* Azul: Lendo */
     --success: #10b981;   /* Verde: Concluído */
     --warning: #f59e0b;   /* Laranja: Pausado */
+    --neutral: #8b5cf6;   /* Roxo: Para Iniciar */
     --text-main: #e2e8f0;
     --text-sub: #94a3b8;
     --border-color: #2d3748;
@@ -54,9 +55,9 @@ body {
 }
 
 /* Lista de Leituras */
-.content { 
+.content {
     padding: 0 15px;
-    min-height: 200px; /* Garante que o container apareça mesmo vazio */
+    min-height: 200px;
 }
 
 .card {
@@ -68,12 +69,12 @@ body {
     margin-bottom: 15px;
     border: 1px solid var(--border-color);
     transition: transform 0.2s ease, border-color 0.3s ease;
-    animation: fadeIn 0.5s ease forwards; /* Suaviza a entrada dos dados */
+    animation: fadeIn 0.5s ease forwards;
 }
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
 .card:active { transform: scale(0.97); }
@@ -89,7 +90,7 @@ body {
 .info { flex: 1; }
 
 .info h3 { margin: 0 0 5px 0; font-size: 1.1rem; color: var(--text-main); }
-.info p { margin: 0; font-size: 0.85rem; color: var(--text-sub); }
+.info p  { margin: 0; font-size: 0.85rem; color: var(--text-sub); }
 
 /* Barras de Progresso */
 .progress-bar {
@@ -100,20 +101,22 @@ body {
     overflow: hidden;
 }
 
-.progress-fill { 
-    height: 100%; 
-    transition: width 1s ease-in-out; 
+.progress-fill {
+    height: 100%;
+    transition: width 1s ease-in-out;
     border-radius: 4px;
 }
 
-/* Cores por Status (Aplicadas via JS) */
-.progress-fill.lendo { background-color: var(--primary); }
-.progress-fill.concluido { background-color: var(--success); }
-.progress-fill.pausado { background-color: var(--warning); }
+/* Cores por Status */
+.progress-fill.lendo        { background-color: var(--primary); }
+.progress-fill.concluido    { background-color: var(--success); }
+.progress-fill.pausado      { background-color: var(--warning); }
+.progress-fill.para_iniciar { background-color: var(--neutral); }  /* NOVO */
 
-.status-label.lendo { color: var(--primary) !important; }
-.status-label.concluido { color: var(--success) !important; }
-.status-label.pausado { color: var(--warning) !important; }
+.status-label.lendo        { color: var(--primary)  !important; }
+.status-label.concluido    { color: var(--success)  !important; }
+.status-label.pausado      { color: var(--warning)  !important; }
+.status-label.para_iniciar { color: var(--neutral)  !important; }  /* NOVO */
 
 .status-row {
     display: flex;
@@ -136,23 +139,28 @@ body {
 
 .nav-item { color: var(--text-sub); font-size: 0.7rem; text-align: center; cursor: pointer; }
 .nav-item.active { color: var(--primary); }
+
 .add-btn {
     background: white;
     color: black !important;
-    width: 55px; height: 55px;
+    width: 55px;
+    height: 55px;
     border-radius: 50%;
     margin-top: -40px;
-    display: flex; align-items: center; justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     box-shadow: 0 5px 15px rgba(0,0,0,0.5);
     font-size: 1.5rem;
     font-weight: bold;
 }
 
+/* Relatório — Grid de cards */
 .stats-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Dois cards por linha */
+    grid-template-columns: 1fr 1fr;
     gap: 15px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 .stat-card {
@@ -181,5 +189,21 @@ body {
     color: var(--primary);
 }
 
-/* Card de largura total para o progresso geral */
 .stat-full { grid-column: span 2; }
+
+/* Gráfico mensal — NOVO */
+.chart-card {
+    background: var(--card-bg);
+    border-radius: 18px;
+    border: 1px solid var(--border-color);
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.chart-title {
+    margin: 0 0 20px 0;
+    font-size: 0.75rem;
+    color: var(--text-sub);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}

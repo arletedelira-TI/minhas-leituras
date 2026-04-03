@@ -12,37 +12,54 @@
     <header class="main-header">
         <div class="top-bar">
             <h1>Biblioteca Pessoal</h1>
-            <div class="user-actions">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <div class="avatar"></div>
-            </div>
         </div>
+        <!-- CORRIGIDO: Filtros por status no lugar de categorias -->
         <nav class="categories">
-            <button class="active">Tudo</button>
-            <button>Livros</button>
-            <button>Docs</button>
-            <button>Artigos</button>
+            <button class="active" data-filter="todos">Tudo</button>
+            <button data-filter="lendo">Lendo</button>
+            <button data-filter="concluido">Concluído</button>
+            <button data-filter="pausado">Pausado</button>
+            <button data-filter="para_iniciar">Para Iniciar</button>
         </nav>
     </header>
 
-    <main class="content" id="reading-list">
-        </main>
+    <!-- CORRIGIDO: Wrapper único que engloba as duas "páginas" -->
+    <div id="app-wrapper">
+        <main class="content" id="reading-list"></main>
 
         <div id="report-page" style="display: none; padding: 0 20px;">
-    <h2 style="margin: 20px 0; color: var(--text-main);">Meu Desempenho</h2>
-    <div id="stats-grid" class="stats-grid">
+            <h2 style="margin: 20px 0; color: var(--text-main);">Meu Desempenho</h2>
+            <div id="stats-grid" class="stats-grid"></div>
+
+            <!-- NOVO: Gráfico de páginas lidas por mês -->
+            <div class="chart-card">
+                <h4 class="chart-title">Páginas Lidas por Mês</h4>
+                <canvas id="monthlyChart" height="200"></canvas>
+            </div>
         </div>
-</div>
+    </div>
 
     <nav class="bottom-nav">
-        <div class="nav-item active"><i class="fa-solid fa-house"></i><span>Início</span></div>
-        <div class="nav-item"><i class="fa-solid fa-compass"></i><span>Explorar</span></div>
-        <div class="nav-item add-btn"><i class="fa-solid fa-plus"></i></div>
-        <div class="nav-item"><i class="fa-solid fa-chart-simple"></i><span>Relatórios</span></div>
-        <div class="nav-item"><i class="fa-solid fa-user"></i><span>Perfil</span></div>
+        <!-- CORRIGIDO: data-page para identificação segura -->
+        <div class="nav-item active" data-page="home">
+            <i class="fa-solid fa-house"></i><span>Início</span>
+        </div>
+        <div class="nav-item" data-page="explore">
+            <i class="fa-solid fa-compass"></i><span>Explorar</span>
+        </div>
+        <div class="nav-item add-btn" data-page="add">
+            <i class="fa-solid fa-plus"></i>
+        </div>
+        <div class="nav-item" data-page="report">
+            <i class="fa-solid fa-chart-simple"></i><span>Relatórios</span>
+        </div>
+        <div class="nav-item" data-page="profile">
+            <i class="fa-solid fa-user"></i><span>Perfil</span>
+        </div>
     </nav>
 
-
+    <!-- Chart.js para o gráfico mensal -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
