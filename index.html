@@ -3,44 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minhas Leituras</title>
+    <title>Biblioteca Pessoal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
-    <header class="main-header">
-        <div class="top-bar">
-            <h1>Biblioteca Pessoal</h1>
-        </div>
-        <!-- CORRIGIDO: Filtros por status no lugar de categorias -->
-        <nav class="categories">
-            <button class="active" data-filter="todos">Tudo</button>
-            <button data-filter="lendo">Lendo</button>
-            <button data-filter="concluido">Concluído</button>
-            <button data-filter="pausado">Pausado</button>
-            <button data-filter="para_iniciar">Para Iniciar</button>
-        </nav>
-    </header>
-
-    <!-- CORRIGIDO: Wrapper único que engloba as duas "páginas" -->
-    <div id="app-wrapper">
-        <main class="content" id="reading-list"></main>
-
-        <div id="report-page" style="display: none; padding: 0 20px;">
-            <h2 style="margin: 20px 0; color: var(--text-main);">Meu Desempenho</h2>
-            <div id="stats-grid" class="stats-grid"></div>
-
-            <!-- NOVO: Gráfico de páginas lidas por mês -->
-            <div class="chart-card">
-                <h4 class="chart-title">Páginas Lidas por Mês</h4>
-                <canvas id="monthlyChart" height="200"></canvas>
+    <!-- ══════════════ TELA: INÍCIO ══════════════ -->
+    <div id="page-home" class="page active">
+        <header class="main-header">
+            <div class="top-bar">
+                <div>
+                    <p class="greeting">Boa leitura 👋</p>
+                    <h1>Biblioteca</h1>
+                </div>
+                <div class="avatar-btn" id="open-profile-btn">
+                    <span id="avatar-initials">?</span>
+                </div>
             </div>
-        </div>
+            <nav class="categories">
+                <button class="active" data-filter="todos">Tudo</button>
+                <button data-filter="lendo">Lendo</button>
+                <button data-filter="concluido">Concluído</button>
+                <button data-filter="pausado">Pausado</button>
+                <button data-filter="para_iniciar">Para Iniciar</button>
+            </nav>
+        </header>
+        <main class="content" id="reading-list"></main>
     </div>
 
+    <!-- ══════════════ TELA: EXPLORAR ══════════════ -->
+    <div id="page-explore" class="page">
+        <header class="main-header">
+            <h1>Explorar</h1>
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="search-input" placeholder="Buscar por título ou categoria…">
+            </div>
+        </header>
+        <main class="content">
+            <section class="explore-section">
+                <h3 class="section-label">Por Status</h3>
+                <div class="explore-grid" id="status-grid"></div>
+            </section>
+            <section class="explore-section">
+                <h3 class="section-label">Por Categoria</h3>
+                <div class="explore-chips" id="category-chips"></div>
+            </section>
+            <section class="explore-section">
+                <h3 class="section-label">Resultados</h3>
+                <div id="explore-results"></div>
+            </section>
+        </main>
+    </div>
+
+    <!-- ══════════════ TELA: RELATÓRIO ══════════════ -->
+    <div id="page-report" class="page">
+        <header class="main-header">
+            <h1>Relatório</h1>
+            <div class="year-selector">
+                <button id="year-prev"><i class="fa-solid fa-chevron-left"></i></button>
+                <span id="year-label">2025</span>
+                <button id="year-next"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </header>
+        <main class="content">
+            <!-- Meta anual -->
+            <div class="meta-hero" id="meta-hero">
+                <div class="meta-hero-text">
+                    <p class="meta-label">Meta anual de livros</p>
+                    <p class="meta-numbers"><span id="meta-concluidos">0</span><span class="meta-sep">/</span><span id="meta-total">12</span></p>
+                </div>
+                <div class="meta-ring-wrap">
+                    <svg class="meta-ring" viewBox="0 0 80 80">
+                        <circle cx="40" cy="40" r="34" fill="none" stroke="#2d3748" stroke-width="7"/>
+                        <circle cx="40" cy="40" r="34" fill="none" stroke="var(--primary)" stroke-width="7"
+                            stroke-linecap="round" stroke-dasharray="213.6"
+                            id="meta-ring-fill" stroke-dashoffset="213.6"
+                            style="transform:rotate(-90deg);transform-origin:center;transition:stroke-dashoffset 1s ease"/>
+                    </svg>
+                    <span class="meta-ring-pct" id="meta-ring-pct">0%</span>
+                </div>
+                <button class="meta-edit-btn" id="meta-edit-btn" title="Editar meta">
+                    <i class="fa-solid fa-pen"></i>
+                </button>
+            </div>
+
+            <!-- Cards de métricas -->
+            <div class="stats-grid" id="stats-grid"></div>
+
+            <!-- Gráfico mensal -->
+            <div class="chart-card">
+                <h4 class="chart-title">Páginas lidas por mês</h4>
+                <canvas id="monthlyChart" height="180"></canvas>
+            </div>
+
+            <!-- Top livros mais longos concluídos -->
+            <div class="chart-card">
+                <h4 class="chart-title">Maiores conquistas (páginas)</h4>
+                <div id="top-books"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ══════════════ TELA: PERFIL ══════════════ -->
+    <div id="page-profile" class="page">
+        <header class="main-header">
+            <h1>Perfil</h1>
+        </header>
+        <main class="content">
+            <div class="profile-hero">
+                <div class="profile-avatar" id="profile-avatar-big">?</div>
+                <div class="profile-name-wrap">
+                    <h2 id="profile-name-display">Leitor</h2>
+                    <button class="edit-name-btn" id="edit-name-btn"><i class="fa-solid fa-pen"></i> Editar</button>
+                </div>
+                <div class="profile-edit-wrap" id="profile-edit-wrap" style="display:none">
+                    <input type="text" id="profile-name-input" placeholder="Seu nome" maxlength="30">
+                    <button id="save-name-btn">Salvar</button>
+                </div>
+            </div>
+
+            <h3 class="section-label" style="margin-top:28px">Conquistas</h3>
+            <div class="badges-grid" id="badges-grid"></div>
+
+            <h3 class="section-label" style="margin-top:28px">Resumo geral</h3>
+            <div class="profile-stats" id="profile-stats"></div>
+        </main>
+    </div>
+
+    <!-- ══════════════ NAV ══════════════ -->
     <nav class="bottom-nav">
-        <!-- CORRIGIDO: data-page para identificação segura -->
         <div class="nav-item active" data-page="home">
             <i class="fa-solid fa-house"></i><span>Início</span>
         </div>
@@ -51,14 +147,26 @@
             <i class="fa-solid fa-plus"></i>
         </div>
         <div class="nav-item" data-page="report">
-            <i class="fa-solid fa-chart-simple"></i><span>Relatórios</span>
+            <i class="fa-solid fa-chart-simple"></i><span>Relatório</span>
         </div>
         <div class="nav-item" data-page="profile">
             <i class="fa-solid fa-user"></i><span>Perfil</span>
         </div>
     </nav>
 
-    <!-- Chart.js para o gráfico mensal -->
+    <!-- Modal editar meta -->
+    <div class="modal-overlay" id="modal-meta" style="display:none">
+        <div class="modal-box">
+            <h3>Meta anual de livros</h3>
+            <p class="modal-sub">Quantos livros você quer concluir em <span id="modal-ano"></span>?</p>
+            <input type="number" id="modal-meta-input" min="1" max="365" placeholder="Ex: 12">
+            <div class="modal-actions">
+                <button class="modal-cancel" id="modal-cancel">Cancelar</button>
+                <button class="modal-save"   id="modal-save">Salvar</button>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
     <script src="script.js"></script>
 </body>
