@@ -17,7 +17,7 @@
 // ══════════════════════════════════════════════════════════════════
 
 // ── Config ────────────────────────────────────────────────────────
-const API_URL   = 'https://oracleapex.com/ords/progressao/v1/leituras/';
+const API_URL   = 'https://oracleapex.com/ords/progressao/v1/leituras//';
 const METAS_URL = 'https://oracleapex.com/ords/progressao/v1/metas/';
 
 const APEX_LIMIT = 500;      // Busca até 500 registros por página
