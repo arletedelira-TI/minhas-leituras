@@ -12,12 +12,12 @@
 //  1. APEX ORDS pagina em 25 por padrão → fetchTodosRegistros() itera páginas
 //  2. Tabela não tem coluna AUTOR → removidas todas as referências
 //  3. getStatusClass() mapeado para os valores exatos do banco
-//  4. statusLabel() exibe o rótulo original do banco no card
+//  4. statusLabel() exibe o rótuSSlo original do banco no card
 //  5. getMes() corrige parsing de datas null vindas como string 'null'
 // ══════════════════════════════════════════════════════════════════
 
 // ── Config ────────────────────────────────────────────────────────
-const API_URL   = 'https://oracleapex.com/ords/progressao/v1/leituras//';
+const API_URL   = 'https://oracleapex.com/ords/progressao/v1/leituras/leituras/';
 const METAS_URL = 'https://oracleapex.com/ords/progressao/v1/metas/';
 
 const APEX_LIMIT = 500;      // Busca até 500 registros por página
