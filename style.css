@@ -108,16 +108,27 @@ button { font-family: 'DM Sans', sans-serif; cursor: pointer; }
 
 /* ── Avatar ──────────────────────────────────────────────────── */
 .avatar-btn {
-    width: 40px; height: 40px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     background: var(--primary-dim);
     border: 1.5px solid var(--primary);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.85rem; font-weight: 600; color: var(--primary);
-    cursor: pointer; flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--primary);
+
+    cursor: pointer;
+    flex-shrink: 0;
+
     transition: transform .2s, box-shadow .2s;
     user-select: none;
-   overflow: hidden;
+
+    overflow: hidden;
 }
 .avatar-btn:hover  { box-shadow: 0 0 0 4px var(--primary-dim); }
 .avatar-btn:active { transform: scale(.92); }
