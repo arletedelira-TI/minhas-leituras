@@ -28,7 +28,7 @@ const DATA_KEY  = 'acervo_dados_cache';
 
 // ── Estado global ─────────────────────────────────────────────────
 let todasLeituras = [];
-let filtroAtivo   = 'todos';
+let filtroAtivo   = 'lendo';
 let anoRelatorio  = new Date().getFullYear();
 let graficoMensal = null;
 let chipCategoria = null;
@@ -223,7 +223,7 @@ async function carregarLeituras() {
             return;
         }
 
-        renderizarCards(todasLeituras);
+        aplicarFiltro('lendo');
         atualizarAvatar();
         atualizarSaudacao();
 
@@ -243,7 +243,7 @@ async function carregarLeituras() {
             if (cache) {
                 todasLeituras = JSON.parse(cache);
                 if (todasLeituras.length) {
-                    renderizarCards(todasLeituras);
+                    aplicarFiltro('lendo');
                     atualizarAvatar();
                     showToast('Offline — dados em cache', 'error');
                     return;
@@ -285,7 +285,7 @@ function renderizarCards(lista) {
         const mesInicio = campo(item,'MES_INICIO','mes_inicio')                 || '';
         const mesFim    = campo(item,'MES_FIM','mes_fim')                       || '';
 
-        const capa  = capaRaw || 'https://placehold.co/68x96/1a1e2b/7880a0?text=📖';
+        const capa  = capaRaw || 'https://placehold.co/68x96/f0ede8/b0a89e?text=📖';
         const perc  = total > 0 ? Math.min(100, Math.round((atual / total) * 100)) : 0;
         const cls   = getStatusClass(statusRaw);
         const label = statusLabel(cls, statusRaw);
@@ -304,7 +304,7 @@ function renderizarCards(lista) {
                  class="cover"
                  alt="Capa: ${livro.replace(/"/g,'&quot;')}"
                  loading="lazy"
-                 onerror="this.src='https://placehold.co/68x96/1a1e2b/7880a0?text=📖'">
+                 onerror="this.src='https://placehold.co/68x96/f0ede8/b0a89e?text=📖'">
             <div class="info">
                 <h3 title="${livro.replace(/"/g,'&quot;')}">${livro}</h3>
                 <p class="sub-line">${subLine || '&nbsp;'}</p>
@@ -434,7 +434,7 @@ function filtrarExplorar(query) {
         const cat      = campo(item,'CATEGORIA','categoria')   || 'Geral';
         const statusRaw= campo(item,'STATUS','status')         || '';
         const capaRaw  = campo(item,'CAPA_URL','capa_url')     || '';
-        const capa     = capaRaw || 'https://placehold.co/68x96/1a1e2b/7880a0?text=📖';
+        const capa     = capaRaw || 'https://placehold.co/68x96/f0ede8/b0a89e?text=📖';
         const atual    = parseInt(campo(item,'PAGINA_ATUAL','pagina_atual'))   || 0;
         const total    = parseInt(campo(item,'TOTAL_PAGINAS','total_paginas')) || 0;
         const perc     = total > 0 ? Math.min(100, Math.round((atual / total) * 100)) : 0;
@@ -444,7 +444,7 @@ function filtrarExplorar(query) {
         return `
         <div class="card" style="animation-delay:${Math.min(i*0.03,0.4)}s">
             <img src="${capa}" class="cover" alt="${livro.replace(/"/g,'&quot;')}" loading="lazy"
-                 onerror="this.src='https://placehold.co/68x96/1a1e2b/7880a0?text=📖'">
+                 onerror="this.src='https://placehold.co/68x96/f0ede8/b0a89e?text=📖'">
             <div class="info">
                 <h3 title="${livro.replace(/"/g,'&quot;')}">${livro}</h3>
                 <p class="sub-line">${cat}</p>
@@ -575,7 +575,7 @@ async function renderizarRelatorio() {
             plugins: {
                 legend: { display: false },
                 tooltip: {
-                    backgroundColor: '#1a1e2b',
+                    backgroundColor: '#f0ede8',
                     borderColor: '#252938',
                     borderWidth: 1,
                     titleColor: '#7880a0',
@@ -696,7 +696,7 @@ async function carregarMeta(ano, concluidosTotal) {
         : `Faltam ${restam} livro${restam !== 1 ? 's' : ''}`;
 }
 
-document.getElementById('meta-edit-btn').addEventListener('click', () => {
+if(document.getElementById('meta-edit-btn')) document.getElementById('meta-edit-btn').addEventListener('click', () => {
     document.getElementById('modal-meta').style.display = 'flex';
 });
 document.getElementById('modal-cancel').addEventListener('click', () => {
@@ -735,8 +735,8 @@ document.getElementById('modal-save').addEventListener('click', async () => {
     renderizarRelatorio();
 });
 
-document.getElementById('year-prev').addEventListener('click', () => { anoRelatorio--; renderizarRelatorio(); });
-document.getElementById('year-next').addEventListener('click', () => {
+if(document.getElementById('year-prev')) document.getElementById('year-prev').addEventListener('click', () => { anoRelatorio--; renderizarRelatorio(); });
+if(document.getElementById('year-next')) document.getElementById('year-next').addEventListener('click', () => {
     if (anoRelatorio < new Date().getFullYear()) { anoRelatorio++; renderizarRelatorio(); }
 });
 
@@ -767,7 +767,7 @@ function abrirModalAdd() {
     setTimeout(() => document.getElementById('add-titulo')?.focus(), 120);
 }
 
-document.getElementById('nav-add-btn').addEventListener('click', abrirModalAdd);
+// nav-add-btn removido
 
 document.querySelectorAll('.status-opt').forEach(btn => {
     btn.addEventListener('click', function () {
@@ -778,8 +778,8 @@ document.querySelectorAll('.status-opt').forEach(btn => {
 });
 
 function fecharModalAdd() { document.getElementById('modal-add').style.display = 'none'; }
-document.getElementById('modal-add-close').addEventListener('click', fecharModalAdd);
-document.getElementById('modal-add-cancel').addEventListener('click', fecharModalAdd);
+if(document.getElementById('modal-add-close')) document.getElementById('modal-add-close').addEventListener('click', fecharModalAdd);
+if(document.getElementById('modal-add-cancel')) document.getElementById('modal-add-cancel').addEventListener('click', fecharModalAdd);
 
 ['modal-add','modal-meta'].forEach(id => {
     document.getElementById(id).addEventListener('click', function(e) {
@@ -787,7 +787,7 @@ document.getElementById('modal-add-cancel').addEventListener('click', fecharModa
     });
 });
 
-document.getElementById('modal-add-save').addEventListener('click', async () => {
+if(document.getElementById('modal-add-save')) document.getElementById('modal-add-save').addEventListener('click', async () => {
     const titulo   = document.getElementById('add-titulo').value.trim();
     const totalPgs = parseInt(document.getElementById('add-total-pags').value) || 0;
     const pagAtual = parseInt(document.getElementById('add-pag-atual').value)  || 0;
@@ -951,7 +951,7 @@ function navegarPara(page) {
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    if (page === 'report')  renderizarRelatorio();
+    // page report removida
     if (page === 'profile') renderizarPerfil();
     if (page === 'explore') renderizarExplorar();
 }

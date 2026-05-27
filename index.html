@@ -19,16 +19,17 @@
                 <div>
                     <p class="greeting" id="greeting-text">Boa leitura 👋</p>
                     <h1>Acervo</h1>
+                    <p class="acervo-desc">Aqui ficam os livros que realmente acompanham meu ritmo cotidiano — obras literárias, ensaios, biografias e leituras de fruição. Livros didáticos densos, técnicos ou de referência profissional têm um fluxo de estudo próprio e ficam fora deste espaço por outro motivo: não cabem na lógica linear de "comecei e terminei".</p>
                 </div>
                 <div class="avatar-btn" id="open-profile-btn">
                     <span id="avatar-initials">?</span>
                 </div>
             </div>
             <nav class="categories" id="filter-nav">
-                <button class="active" data-filter="todos">Tudo</button>
                 <button data-filter="lendo">Lendo</button>
                 <button data-filter="concluido">Concluído</button>
                 <button data-filter="pausado">Pausado</button>
+                <button class="active" data-filter="todos">Tudo</button>
                 <button data-filter="para_iniciar">Para Iniciar</button>
             </nav>
         </header>
@@ -68,44 +69,7 @@
         </main>
     </div>
 
-    <!-- ══════════════ TELA: RELATÓRIO ══════════════ -->
-    <div id="page-report" class="page">
-        <header class="main-header">
-            <div class="report-header-top">
-                <h1>Relatório</h1>
-                <div class="year-selector">
-                    <button id="year-prev" aria-label="Ano anterior"><i class="fa-solid fa-chevron-left"></i></button>
-                    <span id="year-label">2025</span>
-                    <button id="year-next" aria-label="Próximo ano"><i class="fa-solid fa-chevron-right"></i></button>
-                </div>
-            </div>
-        </header>
-        <main class="content">
-            <!-- Meta anual -->
-            <div class="meta-hero" id="meta-hero">
-                <div class="meta-hero-text">
-                    <p class="meta-label">Meta anual de livros</p>
-                    <p class="meta-numbers">
-                        <span id="meta-concluidos">0</span>
-                        <span class="meta-sep">/</span>
-                        <span id="meta-total">12</span>
-                    </p>
-                    <p class="meta-sub" id="meta-sub-text"></p>
-                </div>
-                <div class="meta-ring-wrap">
-                    <svg class="meta-ring" viewBox="0 0 80 80" aria-hidden="true">
-                        <circle cx="40" cy="40" r="34" fill="none" stroke="var(--surface2)" stroke-width="7"/>
-                        <circle cx="40" cy="40" r="34" fill="none" stroke="var(--primary)" stroke-width="7"
-                            stroke-linecap="round" stroke-dasharray="213.6"
-                            id="meta-ring-fill" stroke-dashoffset="213.6"
-                            style="transform:rotate(-90deg);transform-origin:center;transition:stroke-dashoffset 1s ease"/>
-                    </svg>
-                    <span class="meta-ring-pct" id="meta-ring-pct">0%</span>
-                </div>
-                <button class="meta-edit-btn" id="meta-edit-btn" title="Editar meta" aria-label="Editar meta anual">
-                    <i class="fa-solid fa-pen"></i>
-                </button>
-            </div>
+    <!-- TELA: RELATÓRIO removida -->
 
             <!-- Cards de métricas -->
             <div class="stats-grid" id="stats-grid"></div>
@@ -169,12 +133,8 @@
         <div class="nav-item" data-page="explore" role="button" tabindex="0" aria-label="Explorar">
             <i class="fa-solid fa-compass"></i><span>Explorar</span>
         </div>
-        <div class="nav-item add-btn" id="nav-add-btn" role="button" tabindex="0" aria-label="Adicionar livro">
-            <i class="fa-solid fa-plus"></i>
-        </div>
-        <div class="nav-item" data-page="report" role="button" tabindex="0" aria-label="Relatório">
-            <i class="fa-solid fa-chart-simple"></i><span>Relatório</span>
-        </div>
+
+
         <div class="nav-item" data-page="profile" role="button" tabindex="0" aria-label="Perfil">
             <i class="fa-solid fa-user"></i><span>Perfil</span>
         </div>
@@ -193,61 +153,7 @@
         </div>
     </div>
 
-    <!-- ══════════════ MODAL: ADICIONAR LIVRO ══════════════ -->
-    <div class="modal-overlay" id="modal-add" style="display:none" role="dialog" aria-modal="true" aria-labelledby="modal-add-title">
-        <div class="modal-box modal-add-box">
-            <div class="modal-add-header">
-                <h3 id="modal-add-title">Adicionar Livro</h3>
-                <button class="modal-close-btn" id="modal-add-close" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div class="form-field">
-                <label>Título <span class="required">*</span></label>
-                <input type="text" id="add-titulo" placeholder="Ex: O Alquimista" maxlength="200">
-            </div>
-            <div class="form-field">
-                <label>Autor</label>
-                <input type="text" id="add-autor" placeholder="Ex: Paulo Coelho" maxlength="150">
-            </div>
-            <div class="form-row">
-                <div class="form-field">
-                    <label>Páginas totais</label>
-                    <input type="number" id="add-total-pags" placeholder="Ex: 320" min="1">
-                </div>
-                <div class="form-field">
-                    <label>Página atual</label>
-                    <input type="number" id="add-pag-atual" placeholder="Ex: 0" min="0">
-                </div>
-            </div>
-            <div class="form-field">
-                <label>Categoria</label>
-                <input type="text" id="add-categoria" placeholder="Ex: Ficção, Romance, Técnico…" list="cat-suggestions">
-                <datalist id="cat-suggestions"></datalist>
-            </div>
-            <div class="form-field">
-                <label>Status</label>
-                <div class="status-select" id="status-select">
-                    <button class="status-opt" data-val="Lendo" data-cls="lendo">📖 Lendo</button>
-                    <button class="status-opt" data-val="Para Iniciar" data-cls="para_iniciar">📋 Para Iniciar</button>
-                    <button class="status-opt" data-val="Pausado" data-cls="pausado">⏸ Pausado</button>
-                    <button class="status-opt" data-val="Concluído" data-cls="concluido">✅ Concluído</button>
-                </div>
-            </div>
-            <div class="form-field">
-                <label>URL da capa <span class="optional">(opcional)</span></label>
-                <input type="url" id="add-capa" placeholder="https://…">
-            </div>
-            <p class="form-note" id="add-error" style="display:none"></p>
-            <div class="modal-actions">
-                <button class="modal-cancel" id="modal-add-cancel">Cancelar</button>
-                <button class="modal-save" id="modal-add-save">
-                    <span id="add-save-text">Salvar livro</span>
-                    <span id="add-save-loader" style="display:none"><i class="fa-solid fa-circle-notch fa-spin"></i></span>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ══════════════ TOAST ══════════════ -->
+        <!-- ══════════════ TOAST ══════════════ -->
     <div class="toast" id="toast" role="alert" aria-live="polite"></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
