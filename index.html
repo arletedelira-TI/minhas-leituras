@@ -16,25 +16,24 @@
     <div id="page-home" class="page active">
         <header class="main-header">
             <div class="top-bar">
-                <div>
+                <div class="top-bar-text">
                     <p class="greeting" id="greeting-text">Boa leitura 👋</p>
                     <h1>Acervo</h1>
-                    <p class="acervo-desc">Aqui ficam os livros que realmente acompanham meu ritmo cotidiano — obras literárias, ensaios, biografias e leituras de fruição. Livros didáticos densos, técnicos ou de referência profissional têm um fluxo de estudo próprio e ficam fora deste espaço por outro motivo: não cabem na lógica linear de "comecei e terminei".</p>
+                    <p class="acervo-desc">Aqui ficam os livros que realmente acompanham meu ritmo cotidiano — obras literárias, ensaios, biografias e leituras de fruição. Livros didáticos densos, técnicos ou de referência profissional têm um fluxo de estudo próprio e ficam fora deste espaço: não cabem na lógica linear de "comecei e terminei".</p>
                 </div>
                 <div class="avatar-btn" id="open-profile-btn">
                     <span id="avatar-initials">?</span>
                 </div>
             </div>
             <nav class="categories" id="filter-nav">
-                <button data-filter="lendo">Lendo</button>
+                <button class="active" data-filter="lendo">Lendo</button>
                 <button data-filter="concluido">Concluído</button>
                 <button data-filter="pausado">Pausado</button>
-                <button class="active" data-filter="todos">Tudo</button>
+                <button data-filter="todos">Tudo</button>
                 <button data-filter="para_iniciar">Para Iniciar</button>
             </nav>
         </header>
         <main class="content" id="reading-list">
-            <!-- Skeletons iniciais -->
             <div class="skeleton-card"></div>
             <div class="skeleton-card"></div>
             <div class="skeleton-card"></div>
@@ -66,36 +65,6 @@
                 <h3 class="section-label">Resultados</h3>
                 <div id="explore-results"></div>
             </section>
-        </main>
-    </div>
-
-    <!-- TELA: RELATÓRIO removida -->
-
-            <!-- Cards de métricas -->
-            <div class="stats-grid" id="stats-grid"></div>
-
-            <!-- Gráfico mensal -->
-            <div class="chart-card">
-                <div class="chart-header">
-                    <h4 class="chart-title">Páginas lidas por mês</h4>
-                    <span class="chart-badge" id="chart-year-badge">2025</span>
-                </div>
-                <div class="chart-wrap">
-                    <canvas id="monthlyChart"></canvas>
-                </div>
-            </div>
-
-            <!-- Top livros mais longos concluídos -->
-            <div class="chart-card">
-                <h4 class="chart-title">Maiores conquistas (páginas)</h4>
-                <div id="top-books"></div>
-            </div>
-
-            <!-- Distribuição por categoria -->
-            <div class="chart-card">
-                <h4 class="chart-title">Por categoria</h4>
-                <div id="category-dist"></div>
-            </div>
         </main>
     </div>
 
@@ -133,30 +102,14 @@
         <div class="nav-item" data-page="explore" role="button" tabindex="0" aria-label="Explorar">
             <i class="fa-solid fa-compass"></i><span>Explorar</span>
         </div>
-
-
         <div class="nav-item" data-page="profile" role="button" tabindex="0" aria-label="Perfil">
             <i class="fa-solid fa-user"></i><span>Perfil</span>
         </div>
     </nav>
 
-    <!-- ══════════════ MODAL: EDITAR META ══════════════ -->
-    <div class="modal-overlay" id="modal-meta" style="display:none" role="dialog" aria-modal="true" aria-labelledby="modal-meta-title">
-        <div class="modal-box">
-            <h3 id="modal-meta-title">Meta anual de livros</h3>
-            <p class="modal-sub">Quantos livros você quer concluir em <span id="modal-ano"></span>?</p>
-            <input type="number" id="modal-meta-input" min="1" max="365" placeholder="Ex: 12" aria-label="Meta de livros">
-            <div class="modal-actions">
-                <button class="modal-cancel" id="modal-cancel">Cancelar</button>
-                <button class="modal-save" id="modal-save">Salvar</button>
-            </div>
-        </div>
-    </div>
-
-        <!-- ══════════════ TOAST ══════════════ -->
+    <!-- ══════════════ TOAST ══════════════ -->
     <div class="toast" id="toast" role="alert" aria-live="polite"></div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
